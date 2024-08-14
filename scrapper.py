@@ -5,28 +5,27 @@ import time
 # Define the WebDriver and target URL
 from selenium import webdriver
 
-driver = webdriver.Chrome()  # No need to specify the path if added to PATH
+driver = webdriver.Chrome()
 
-url = 'https://results.jssstuniv.in/'  # Replace with the actual URL
+url = ''  # Replace with the actual URL
 
 # Define the name you're looking for
-target_name = 'Adithya Deepthi Kumar'
+target_name = 'elon musk' # dummy target name
 
 
-def generate_usns():
-    """Generate USNs in the format of 01JCE21CSXXX."""
+def generate_combinations():
+    """Generate credentials in the format of your regex."""
     for i in range(1, 300):
-        yield f'01JST21CS{i:03d}'
+        yield f""
 
-usn = 01JST21CS005
 
-def check_usn(usn):
-    """Submit the USN and check if the target name is found."""
+def check_credential(credentials):
+    """Submit the inputs and check if the target name is found."""
     driver.get(url)
 
     # Find the input field and submit the USN (adjust based on actual HTML structure)
-    input_field = driver.find_element(By.ID, 'USN')  # Update this selector
-    input_field.send_keys(usn)
+    input_field = driver.find_element(By.ID, 'SELECTOR')  # Update this selector
+    input_field.send_keys(credentials)
     input_field.send_keys(Keys.RETURN)
 
     # Allow time for the page to load
@@ -38,18 +37,18 @@ def check_usn(usn):
         name = name_element.text.strip()
 
         if name == target_name:
-            print(f"Target found for USN: {usn}")
+            print(f"Target found for input: {credentials}")
             return True
     except Exception as e:
-        print(f"Error checking USN {usn}: {str(e)}")
+        print(f"Error checking input {credentials}: {str(e)}")
     return False
 
 
 try:
-    for usn in generate_usns():
-        if check_usn(usn):
+    for credential in generate_combinations():
+        if check_credential(credential):
             break
     else:
-        print("Target name not found in any USN.")
+        print("Target name not found in any HTML SOURCE DATA.")
 finally:
     driver.quit()
